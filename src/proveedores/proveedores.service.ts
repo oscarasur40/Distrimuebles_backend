@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateProveedoreDto } from './dto/create-proveedore.dto';
-import { UpdateProveedoreDto } from './dto/update-proveedore.dto';
+import { Proveedor, ProveedorDocument } from './entities/proveedor.shema';
+
+//import { UpdateProveedoreDto } from './dto/update-proveedore.dto';
 
 @Injectable()
 export class ProveedoresService {
-  create(createProveedoreDto: CreateProveedoreDto) {
-    return 'This action adds a new proveedore';
+  constructor(
+    @InjectModel(Proveedor.name)
+    private proveedorModelo: Model<ProveedorDocument>,
+  ) {}
+  create(createProveedoreDto: CreateProveedoreDto): Promise<Proveedor> {
+    const createProveedor = new this.proveedorModelo(createProveedoreDto);
+    return createProveedor.save();
   }
 
-  findAll() {
-    return `This action returns all proveedores`;
+  findAll(): Promise<Proveedor[]> {
+    return this.proveedorModelo.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} proveedore`;
+  findById(id: number) {
+    return this.proveedorModelo.findById(id).exec();
   }
 
-  update(id: number, updateProveedoreDto: UpdateProveedoreDto) {
-    return `This action updates a #${id} proveedore`;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  findOne(options: object): Promise<ProveedorDocument> {
+    return this.proveedorModelo.findOne(options).exec();
+  }
+
+  update(id: number, updateProveedoreDto: CreateProveedoreDto) {
+    return this.proveedorModelo
+      .findByIdAndUpdate(id, updateProveedoreDto, { new: true })
+      .exec();
   }
 
   remove(id: number) {
-    return `This action removes a #${id} proveedore`;
+    return this.proveedorModelo.findByIdAndDelete(id).exec();
   }
 }

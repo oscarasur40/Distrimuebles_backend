@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ProveedorDocument = Proveedore & Document;
+export type ProveedorDocument = Proveedor & Document;
 
 @Schema()
-export class Proveedore {
-  @Prop()
+export class Proveedor {
+  @Prop({ required: true })
   razon_social: string;
 
-  @Prop()
+  @Prop({ required: true })
   sector_social: string;
 
   @Prop()
@@ -29,4 +29,4 @@ export class Proveedore {
   @Prop()
   url: string;
 }
-export const ProveedorSchema = SchemaFactory.createForClass(Proveedore);
+export const ProveedorSchema = SchemaFactory.createForClass(Proveedor);
