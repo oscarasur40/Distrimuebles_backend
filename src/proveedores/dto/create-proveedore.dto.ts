@@ -1,4 +1,4 @@
-import { Prop } from '@nestjs/mongoose';
+
 
 export class CreateProveedoreDto {
   readonly razon_social: string;
