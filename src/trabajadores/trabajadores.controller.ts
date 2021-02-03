@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TrabajadoresService } from './trabajadores.service';
 import { CreateTrabajadoreDto } from './dto/create-trabajadore.dto';
 import { UpdateTrabajadoreDto } from './dto/update-trabajadore.dto';
@@ -17,18 +25,26 @@ export class TrabajadoresController {
     return this.trabajadoresService.findAll();
   }
 
+  @Get('find')
+  findOne(@Body() body) {
+    return this.trabajadoresService.findOne(body);
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.trabajadoresService.findOne(+id);
+  findById(@Param('id') id: number) {
+    return this.trabajadoresService.findById(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTrabajadoreDto: UpdateTrabajadoreDto) {
-    return this.trabajadoresService.update(+id, updateTrabajadoreDto);
+  update(
+    @Param('id') id: number,
+    @Body() updateTrabajadoreDto: UpdateTrabajadoreDto,
+  ) {
+    return this.trabajadoresService.update(id, updateTrabajadoreDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.trabajadoresService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.trabajadoresService.remove(id);
   }
 }
